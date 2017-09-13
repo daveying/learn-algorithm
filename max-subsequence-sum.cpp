@@ -7,7 +7,8 @@ struct RetData {
     int max;
 };
 
-RetData maxSubsequenceSum(int input[], int begin, int end);
+RetData maxSubsequenceSum1(int input[], int begin, int end);
+int maxSubsequenceSum2(int input[], int begin, int end);
 
 int main(int argc, char** argv) {
 
@@ -17,17 +18,20 @@ int main(int argc, char** argv) {
     //int input[0];                                     // pass
     //int input[3] = {-2, -1, -3};                      // pass
     //int input[6] = {-2, -1, -3, 3, -1, 2};            // pass
-    //int input[6] = {-2, -1, 3, -3, -1, 2};            // pass
-    int input[6] = {-2, -1, 3, -3, 1, 2};               // pass
+    int input[6] = {-2, -1, 3, -3, -1, 2};              // pass
+    //int input[6] = {-2, -1, 3, -3, 1, 2};             // pass
     //int input[6] = {-2, -1, 0, 3, 2, 1};              // pass
     int arrLen = sizeof(input) / sizeof(input[0]);
-    RetData ret = maxSubsequenceSum(input, 0, arrLen);
+    RetData ret = maxSubsequenceSum1(input, 0, arrLen);
+    int max = maxSubsequenceSum2(input, 0, arrLen);
     cout << "Subsequence with max sum is [" << ret.begin << ", " << ret.end << "), " << "and max sum is " << ret.max << "." << endl;
+    cout << "Max sum is " << max << endl;
     return 0;
 
 }
 
-RetData maxSubsequenceSum(int input[], int begin, int end) {
+// divide and conquer
+RetData maxSubsequenceSum1(int input[], int begin, int end) {
 
     RetData ret;
     /// length of input array is zero (invalid input)
@@ -45,13 +49,13 @@ RetData maxSubsequenceSum(int input[], int begin, int end) {
         return ret;
     }
     /// calculate middle index of subsequence
-    int mid = (begin + end) / 2;
+    int mid = (begin + end) >> 1;
 
     /// find max subsequence sum of subsequence [begin, mid)
-    RetData headRet = maxSubsequenceSum(input, begin, mid);
+    RetData headRet = maxSubsequenceSum1(input, begin, mid);
 
     /// find max subsequence sum of subsequence [mid, end)
-    RetData tailRet = maxSubsequenceSum(input, mid, end);
+    RetData tailRet = maxSubsequenceSum1(input, mid, end);
 
     /// find max subsequence sum cross middle point (the sum of subsequence [headRet.begin, tailRet.end) )
     int maxHead = headRet.max;
@@ -78,4 +82,17 @@ RetData maxSubsequenceSum(int input[], int begin, int end) {
     }
     return tailRet;
 
+}
+
+int maxSubsequenceSum2(int input[], int begin, int end) {
+    int thisMax, maxSum;
+    thisMax = maxSum = 0;
+    for (int i = begin; i < end; ++i) {
+        thisMax += input[i];
+        if (thisMax > maxSum) {
+            maxSum = thisMax;
+        }
+        if (thisMax < 0) thisMax = 0;
+    }
+    return maxSum;
 }
