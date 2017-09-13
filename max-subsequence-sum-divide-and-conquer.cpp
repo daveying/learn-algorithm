@@ -14,10 +14,15 @@ int main(int argc, char** argv) {
     //int input[8] = {4, -3, 5, -27, -1, 2, 6, -2};     // pass
     //int input[1] = {1};                               // pass
     //int input[7] = {3, 0, -9, 7, 9,-43, 27};          // pass
-    int input[0];                                       // pass
+    //int input[0];                                     // pass
+    //int input[3] = {-2, -1, -3};                      // pass
+    //int input[6] = {-2, -1, -3, 3, -1, 2};            // pass
+    //int input[6] = {-2, -1, 3, -3, -1, 2};            // pass
+    int input[6] = {-2, -1, 3, -3, 1, 2};               // pass
+    //int input[6] = {-2, -1, 0, 3, 2, 1};              // pass
     int arrLen = sizeof(input) / sizeof(input[0]);
     RetData ret = maxSubsequenceSum(input, 0, arrLen);
-    cout << ret.begin << endl << ret.end << endl << ret.max << endl;
+    cout << "Subsequence with max sum is [" << ret.begin << ", " << ret.end << "), " << "and max sum is " << ret.max << "." << endl;
     return 0;
 
 }
@@ -60,6 +65,7 @@ RetData maxSubsequenceSum(int input[], int begin, int end) {
     int maxCross = maxHead + maxTail;
 
     /// compare and find which one is the max subsuquence sum
+    // cross case has highest priority, so longest subsequence with max sum will be returned
     if (maxCross >= headRet.max && maxCross >= tailRet.max) {
         ret.begin = headRet.begin;
         ret.end = tailRet.end;
