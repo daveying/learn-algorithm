@@ -18,6 +18,10 @@ private:
 public:
     LinkedList();
     ~LinkedList();
+
+    bool isEmpty();
+    int find(LinkedListNode<T> target);
+    int find(T target);
 };
 
 
@@ -44,6 +48,32 @@ LinkedList<T>::~LinkedList() {
         delete p;
         p = temp;
     }
+}
+
+template<typename T>
+bool LinkedList<T>::isEmpty() {
+    return dummyHead->next == nullptr;
+}
+
+
+template<typename T>
+int LinkedList<T>::find(LinkedListNode<T> target) {
+    return find(target.data);
+}
+
+template<typename T>
+int LinkedList<T>::find(T target) {
+    int index = 0;
+    bool flag = false;
+    LinkedListNode* p = dummyHead->next;
+    while(p) {
+        if (target == p->data) {
+            flag = true;
+            break;
+        }
+        index++;
+    }
+    return flag ? index : -1;
 }
 
 #endif
