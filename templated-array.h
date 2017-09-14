@@ -48,5 +48,8 @@ public:
     // It does not depend on the data type of the array
     int getLength();
 };
+
+template <typename T>
+int Array<T>::getLength() { return m_length; }
  
 #endif
