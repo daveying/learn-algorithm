@@ -11,20 +11,6 @@ public:
     ~LinkedListNode();
 };
 
-template<class T>
-class LinkedList {
-private:
-    LinkedListNode<T>* dummyHead;
-public:
-    LinkedList();
-    ~LinkedList();
-
-    bool isEmpty();
-    int find(LinkedListNode<T> target);
-    int find(T target);
-};
-
-
 template<typename T>
 LinkedListNode<T>::LinkedListNode() {
     next = nullptr;
@@ -35,9 +21,29 @@ LinkedListNode<T>::~LinkedListNode() {
     delete next;
 }
 
+
+template<class T>
+class LinkedList {
+private:
+    LinkedListNode<T>* dummyHead;
+    int count;
+public:
+    LinkedList();
+    ~LinkedList();
+
+    bool isEmpty();
+    bool isLast(LinkedListNode<T>* node);
+    int find(LinkedListNode<T> target);
+    int find(T target);
+    LinkedListNode<T>* find(int index);
+    LinkedListNode<T>* findPrevious()
+    void insert(int index, LinkedListNode<T>* node);
+};
+
 template<typename T>
 LinkedList<T>::LinkedList() {
     dummyHead = new LinkedListNode<T>();
+    count = 0;
 }
 
 template<typename T>
@@ -53,6 +59,11 @@ LinkedList<T>::~LinkedList() {
 template<typename T>
 bool LinkedList<T>::isEmpty() {
     return dummyHead->next == nullptr;
+}
+
+template<typename T>
+bool LinkedList<T>::isLast(LinkedListNode<T>* node) {
+    return node->next == nullptr;
 }
 
 
@@ -74,6 +85,23 @@ int LinkedList<T>::find(T target) {
         index++;
     }
     return flag ? index : -1;
+}
+
+template<typename T>
+LinkedListNode<T>* find(int index) {
+    if (index >= count || index < 0) {
+        return nullptr;
+    }
+    LinkedListNode<T>* p = dummyHead->next;
+    int i = 0;
+    while(!p) {
+        if ( index == i) {
+            return p;
+        }
+        p = p->next;
+        i++;
+    }
+    return nullptr;
 }
 
 #endif
